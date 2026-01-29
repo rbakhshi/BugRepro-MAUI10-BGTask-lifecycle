@@ -17,10 +17,11 @@ public class AppDelegate : MauiUIApplicationDelegate
     {
         var finishedLaunching = base.FinishedLaunching(application, launchOptions);
         
-        App.NetLog(TraceLevel.Info,  Environment.CurrentManagedThreadId, "Finished Launching");
+        App.NetLog(TraceLevel.Info,  Environment.CurrentManagedThreadId, $"Finished Launching {finishedLaunching}");
 
         RegisterPeriodicBackgroundSyncHandler();
         
+        App.NetLog(TraceLevel.Info,  Environment.CurrentManagedThreadId, "Finished registration of handler");
         return finishedLaunching;
     }
 
@@ -60,6 +61,10 @@ public class AppDelegate : MauiUIApplicationDelegate
                     null,
                     handler.HandleBackgroundTask);
                 App.NetLog(TraceLevel.Info, Environment.CurrentManagedThreadId, "Registered periodic background sync handler");
+            }
+            else
+            {
+                App.NetLog(TraceLevel.Info, Environment.CurrentManagedThreadId, "handler is already there, so not re-registering!");
             }
         }
         catch (Exception ex)
